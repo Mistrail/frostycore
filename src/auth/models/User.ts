@@ -1,5 +1,5 @@
 import { Provider } from "@nestjs/common";
-import { Column, DataType, HasMany, IsEmail, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Scopes, Table } from "sequelize-typescript";
 import { ProviderNames } from "src/misc/provider.enum";
 import { Role } from "./Role";
 import * as crypto from "crypto";
@@ -8,6 +8,9 @@ const ALGO: string = 'sha256';
 const DIGEST: crypto.BinaryToTextEncoding = 'hex';
 const RAND_LENGTH: number = 256;
 
+@Scopes(() => ({
+    public: { attributes: { exclude: ['salt', 'passhash'] } }
+}))
 @Table({
     paranoid: true,
     timestamps: true,
@@ -23,7 +26,7 @@ export class User extends Model {
         const hash = crypto.createHash(ALGO).update(bytes)
         return hash.digest(DIGEST)
     }
-    async checkPassword(password: string): Promise<boolean>{
+    async checkPassword(password: string): Promise<boolean> {
         const challenge = User.generatePasshash(password, this.salt);
         return challenge === this.passhash
     }

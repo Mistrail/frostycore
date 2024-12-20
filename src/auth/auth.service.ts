@@ -16,23 +16,34 @@ import { SecurityConfig } from "src/security/security.config";
 
 @Injectable()
 export default class AuthService {
-
     constructor(
         private readonly security: SecurityService,
         private readonly config: ConfigService,
         @Inject(ProviderNames.MODEL_USER) private readonly user: typeof User
     ) { }
 
-    async revoke(headers: unknown): Promise<boolean>{
-        const conf: SecurityConfig = this.config.get(Config.SECURITY)
-        const token: string = headers[conf.tokenHeader] || null;
-        if(token){
-            //@todo drop token
-        }        
-        return true
+    async whoami(id?: number): Promise<any> {
+        if(id){
+            return await this.user.scope('public').findByPk(id);
+        }
+                
+        return null;
     }
 
-    refresh({ id, roles }: UserPayloadDto): string {
+    async revoke(headers: unknown): Promise<{ [key: string]: boolean }[] | []> {
+        const conf: SecurityConfig = this.config.get(Config.SECURITY)
+        const token: string = headers[conf.tokenHeader] || null;
+        let dropped = [];
+        if (token) {
+            //@todo drop token from external services
+            dropped.push({ core: true });
+        }
+        return dropped
+    }
+
+    async refresh({ id, roles }: UserPayloadDto): Promise<string> {
+        const currentUser = await this.user.findByPk(id);
+        if (!currentUser) throw new HttpException(Errors.ERR_INVALID_USER, HttpStatus.BAD_REQUEST)
         return this.security.sign({ id, roles })
     }
 

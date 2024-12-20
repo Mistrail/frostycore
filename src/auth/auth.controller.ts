@@ -12,6 +12,11 @@ export default class AuthController {
 
     constructor(private readonly svc: AuthService) { }
     
+    @Get('whoami')
+    whoami(@User() user: UserPayloadDto): Promise<any>{
+        return this.svc.whoami(user?.id)
+    }
+
     @Delete('revoke')
     revoke(@Req() req: Request){
         this.svc.revoke(req.headers)
