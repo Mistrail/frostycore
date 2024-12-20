@@ -12,6 +12,12 @@ export default class AuthController {
 
     constructor(private readonly svc: AuthService) { }
     
+    @Delete()
+    async deleteMe(@User() user: UserPayloadDto, @Req() req: Request): Promise<boolean>{
+        await this.svc.revoke(req.headers)
+        return this.svc.deleteMe(user?.id)
+    }
+
     @Get('whoami')
     whoami(@User() user: UserPayloadDto): Promise<any>{
         return this.svc.whoami(user?.id)

@@ -22,11 +22,19 @@ export default class AuthService {
         @Inject(ProviderNames.MODEL_USER) private readonly user: typeof User
     ) { }
 
+
+    async deleteMe(id?: number): Promise<boolean> {
+        if (id) {
+            await this.user.scope('public').destroy({ where: { id } });
+        }
+        return true;
+    }
+
     async whoami(id?: number): Promise<any> {
-        if(id){
+        if (id) {
             return await this.user.scope('public').findByPk(id);
         }
-                
+
         return null;
     }
 
