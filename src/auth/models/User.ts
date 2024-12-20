@@ -9,7 +9,7 @@ const DIGEST: crypto.BinaryToTextEncoding = 'hex';
 const RAND_LENGTH: number = 256;
 
 @Scopes(() => ({
-    public: { attributes: { exclude: ['salt', 'passhash'] } }
+    public: { attributes: { exclude: ['salt', 'passhash'] }, include: [{model: Role, as: 'roles'}] }
 }))
 @Table({
     paranoid: true,
