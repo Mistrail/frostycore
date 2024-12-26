@@ -25,14 +25,14 @@ export default class AuthService {
 
     async deleteMe(id?: number): Promise<boolean> {
         if (id) {
-            await this.user.scope('public').destroy({ where: { id } });
+            await this.user.scope(User.SCOPES).destroy({ where: { id } });
         }
         return true;
     }
 
     async whoami(id?: number): Promise<any> {
         if (id) {
-            return await this.user.scope('public').findByPk(id);
+            return await this.user.scope(User.SCOPES.PUBLIC).findByPk(id);
         }
 
         return null;
@@ -84,7 +84,7 @@ export default class AuthService {
     async signin({ email, password }: UserUpdateDto): Promise<string> {
 
         try {
-            const user = await this.user.findOne({ where: { email } });
+            const user = await this.user.scope(User.SCOPES.SECURITY).findOne({ where: { email } });
 
             if (!user) {
                 throw new HttpException(Errors.ERR_INVALID_LOGINPASS, HttpStatus.UNAUTHORIZED);
@@ -94,7 +94,7 @@ export default class AuthService {
                 throw new HttpException(Errors.ERR_INVALID_LOGINPASS, HttpStatus.UNAUTHORIZED);
             }
 
-            const { id, roles } = user
+            const { id, roles } = user            
 
             return this.security.sign({ id, roles })
         } catch (ex) {

@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["run", "start:dev"],
-            "outputCapture": "console"
+            "outputCapture": "std"
         },
         {
             "type": "node",

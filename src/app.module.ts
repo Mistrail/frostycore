@@ -7,15 +7,20 @@ import authConfig from './security/security.config';
 import { UserMiddleware } from './security/middlewares/user.middleware';
 import { SecurityModule } from './security/security.module';
 import { SecurityService } from './security/security.service';
+import securityConfig from './security/security.config';
+import filesystemConfig from './filesystem/filesystem.config';
+import { FilesystemModule } from './filesystem/filesystem.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig],
+      envFilePath: '.env',
+      load: [databaseConfig, authConfig, securityConfig, filesystemConfig],
     }),
     AuthModule,
     SecurityModule,
+    FilesystemModule,
   ],
   controllers: [],
   providers: [

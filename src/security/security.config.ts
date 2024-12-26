@@ -1,5 +1,7 @@
 import { registerAs } from "@nestjs/config"
 import { Config } from "src/misc/config.enum"
+import * as dotenv from "dotenv"
+dotenv.config()
 
 export type SecurityConfig = {
     jwtSecret: string,
@@ -10,9 +12,9 @@ export type SecurityConfig = {
 }
 
 export default registerAs(Config.SECURITY, (): SecurityConfig => ({
-    jwtSecret: process.env.JWT_SECRET || 'secret',
-    apiKey: process.env.JWT_APIKEY || 'demo',
-    apiHeader: process.env.X_API_KEY || 'x-api-key',
-    tokenHeader: process.env.X_USER_TOKEN || 'Authorization',
-    expiresIn: Number(process.env.X_EXPIRES_IN) || 3600 * 12,
+    jwtSecret: process.env.JWT_SECRET,
+    apiKey: process.env.JWT_APIKEY,
+    apiHeader: process.env.X_API_KEY,
+    tokenHeader: process.env.X_USER_TOKEN,
+    expiresIn: Number(process.env.JWT_EXPIRES_IN),
 }))

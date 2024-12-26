@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, Post, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, Post, Put, Req } from "@nestjs/common";
 import AuthService from "./auth.service";
 import { UserUpdateDto } from "./dto/user.update.dto";
 import { UserCreateDto } from "./dto/user.create.dto";
@@ -18,7 +18,7 @@ export default class AuthController {
         return this.svc.deleteMe(user?.id)
     }
 
-    @Get('whoami')
+    @Get()
     whoami(@User() user: UserPayloadDto): Promise<any>{
         return this.svc.whoami(user?.id)
     }
@@ -29,7 +29,7 @@ export default class AuthController {
         return true
     }
 
-    @Get('refresh')
+    @Put()
     refresh(@User() user: UserPayloadDto){
         return this.svc.refresh(user)
     }

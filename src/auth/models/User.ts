@@ -2,20 +2,30 @@ import { Provider } from "@nestjs/common";
 import { Column, DataType, HasMany, Model, Scopes, Table } from "sequelize-typescript";
 import { ProviderNames } from "src/misc/provider.enum";
 import { Role } from "./Role";
+import { File } from "../../filesystem/models/File";
 import * as crypto from "crypto";
 
 const ALGO: string = 'sha256';
 const DIGEST: crypto.BinaryToTextEncoding = 'hex';
 const RAND_LENGTH: number = 256;
 
+const scopes = {
+    PUBLIC: 'PUBLIC',
+    SECURITY: 'SECURITY',
+}
+
 @Scopes(() => ({
-    public: { attributes: { exclude: ['salt', 'passhash'] }, include: [{model: Role, as: 'roles'}] }
+    [scopes.PUBLIC]: { attributes: { exclude: ['salt', 'passhash'] }, include: [{ model: Role, as: 'roles' }] },
+    [scopes.SECURITY]: { include: [{ model: Role, as: 'roles' }] },
 }))
 @Table({
     paranoid: true,
     timestamps: true,
 })
 export class User extends Model {
+
+    static SCOPES = scopes
+
     static generatePasshash(password: string, salt: string): string {
         const str = password + salt
         const hash = crypto.createHash(ALGO).update(str)
@@ -34,6 +44,11 @@ export class User extends Model {
         foreignKey: 'userId'
     })
     roles: Role[]
+
+    @HasMany(() => File, {
+        foreignKey: 'userId'
+    })
+    files: File[]
 
     @Column({
         type: DataType.STRING,

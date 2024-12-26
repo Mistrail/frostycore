@@ -16,7 +16,7 @@ export class SecurityService {
     }
 
     public sign(payload: string | Buffer | object): string {
-        return jwt.sign(payload, this.options.jwtSecret, { expiresIn: this.options.expiresIn })
+        return jwt.sign(payload, this.options.jwtSecret)
     }
 
     public verify(token: string): jwt.JwtPayload | string {
