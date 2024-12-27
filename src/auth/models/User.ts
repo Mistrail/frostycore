@@ -4,6 +4,7 @@ import { ProviderNames } from "src/misc/provider.enum";
 import { Role } from "./Role";
 import { File } from "../../filesystem/models/File";
 import * as crypto from "crypto";
+import { Store } from "src/storage/models/Store";
 
 const ALGO: string = 'sha256';
 const DIGEST: crypto.BinaryToTextEncoding = 'hex';
@@ -48,7 +49,12 @@ export class User extends Model {
     @HasMany(() => File, {
         foreignKey: 'userId'
     })
-    files: File[]
+    files?: File[]
+
+    @HasMany(() => Store, {
+        foreignKey: 'userId'
+    })
+    stores?: Store[]
 
     @Column({
         type: DataType.STRING,

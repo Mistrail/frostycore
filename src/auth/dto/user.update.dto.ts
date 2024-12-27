@@ -1,4 +1,4 @@
 export class UserUpdateDto {
-    email?: string
+    email?: string    
     password?: string
 }

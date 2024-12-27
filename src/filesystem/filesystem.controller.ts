@@ -9,30 +9,34 @@ import { FilesystemService } from "./filesystem.service";
 import { FilesystemUpdateDto } from "./dto/filesystem.update.dto";
 import * as path from "path"
 import { Express } from "express";
+import { ApiOperation } from "@nestjs/swagger";
 
 @Controller('upload')
 export class FilesystemController {
 
     constructor(private service: FilesystemService) { }
 
+    @ApiOperation({summary: 'Загрузка файла'})
     @Post()
     @Access({ moduleType: Modules.WORKBENCH, role: Roles.ADMIN })
     @UploadFile()
     upload(
         @User() user: UserPayloadDto,
-        @Body() fields: Omit<FilesystemUploadDto, 'file'>,
+        @Body() fields: FilesystemUploadDto,
         @UploadedFile() file: Express.Multer.File
     ): Promise<FilesystemUpdateDto> {
         return this.service.add(file, user, fields);
     }
 
+    @ApiOperation({summary: 'Удаление файла'})
     @Delete()
     @Access({ moduleType: Modules.WORKBENCH, role: Roles.ADMIN })
     remove(@Body('id', ParseIntPipe) id: number): Promise<boolean> {
         return this.service.remove(id)
     }
 
-    @Get("/:id")
+    @ApiOperation({summary: 'Получить контент файла по ИД'})
+    @Get(":id")
     async getFile(
         @Param('id') id: number,
         @Response() res

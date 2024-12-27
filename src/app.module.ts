@@ -10,6 +10,7 @@ import { SecurityService } from './security/security.service';
 import securityConfig from './security/security.config';
 import filesystemConfig from './filesystem/filesystem.config';
 import { FilesystemModule } from './filesystem/filesystem.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FilesystemModule } from './filesystem/filesystem.module';
     AuthModule,
     SecurityModule,
     FilesystemModule,
+    StorageModule
   ],
   controllers: [],
   providers: [

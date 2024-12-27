@@ -30,11 +30,11 @@ export default class AuthService {
         return true;
     }
 
-    async whoami(id?: number): Promise<any> {
+    async whoami(id?: number): Promise<User | null> {
         if (id) {
-            return await this.user.scope(User.SCOPES.PUBLIC).findByPk(id);
+            const user = await this.user.scope(User.SCOPES.PUBLIC).findByPk(id);
+            return user as User;
         }
-
         return null;
     }
 

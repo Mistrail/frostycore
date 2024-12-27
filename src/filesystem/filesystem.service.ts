@@ -14,7 +14,7 @@ export class FilesystemService {
 
     constructor(@Inject(ProviderNames.MODEL_FILE) private file: typeof File) { }
 
-    async add(file: Express.Multer.File, user: UserPayloadDto, fields: Omit<FilesystemUploadDto, 'file'>): Promise<FilesystemUpdateDto> {
+    async add(file: Express.Multer.File, user: UserPayloadDto, fields: FilesystemUploadDto): Promise<FilesystemUpdateDto> {
         const dataToInsert: FilesystemCreateDto = {
             entityType: fields.entityType,
             entityId: fields.entityId,
