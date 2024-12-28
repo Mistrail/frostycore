@@ -1,4 +1,4 @@
-export enum ProviderNames {
+export enum Providers {
     SEQUELIZE = 'SEQUELIZE',
     MODEL_USER = "MODEL_USER",
     MODEL_ROLE = "MODEL_ROLE",
@@ -6,5 +6,6 @@ export enum ProviderNames {
     MODEL_STORE = "MODEL_STORE",
     MODEL_ITEM = "MODEL_ITEM",
     MODEL_PROPERTY_VALUE = "MODEL_PROPERTY_VALUE",
-    MODEL_PROPERTY = "MODEL_PROPERTY"
+    MODEL_PROPERTY = "MODEL_PROPERTY",
+    MODEL_SHOP = "MODEL_SHOP"
 }

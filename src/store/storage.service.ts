@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
 import { Store } from "./models/Store";
 import { Item } from "./models/Item";
 import { ItemCreateDto } from "./dto/item.create.dto";
@@ -13,8 +13,8 @@ import { ItemUpdateDto } from "./dto/item.update.dto";
 @Injectable()
 export class StorageService {
     constructor(
-        @Inject(ProviderNames.MODEL_STORE) private stores: typeof Store,
-        @Inject(ProviderNames.MODEL_ITEM) private items: typeof Item,
+        @Inject(Providers.MODEL_STORE) private stores: typeof Store,
+        @Inject(Providers.MODEL_ITEM) private items: typeof Item,
     ) { }
 
     searchStores(s: string): Promise<List<Store>> {

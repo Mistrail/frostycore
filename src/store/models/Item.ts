@@ -1,15 +1,17 @@
 import { BelongsTo, BelongsToMany, HasMany, Model, Table } from "sequelize-typescript";
 import { Store } from "./Store";
 import { Provider } from "@nestjs/common";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
 import { Property } from "./Property";
 import { PropertyValue } from "./PropertyValue";
+import { ExtModel } from "../../database/ExtModel";
+import { registerModel } from "../../database/database.utils";
 
 @Table({
     paranoid: true,
     timestamps: true
 })
-export class Item extends Model{
+export class Item extends ExtModel{
     @BelongsTo(() => Store, {
         foreignKey: 'storeId',
         onUpdate: 'CASCADE',
@@ -21,8 +23,9 @@ export class Item extends Model{
     properties?: Array<Property & {PropertyValue: PropertyValue}>
 }
 
-
 export const ItemProvider: Provider = {
-    provide: ProviderNames.MODEL_ITEM,
+    provide: Providers.MODEL_ITEM,
     useValue: Store
 }
+
+registerModel(Item)

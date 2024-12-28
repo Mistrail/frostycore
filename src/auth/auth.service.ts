@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { User } from "./models/User";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
 import { UserUpdateDto } from "./dto/user.update.dto";
 import { Errors } from "src/misc/errors.enum";
 import { UserCreateDto } from "./dto/user.create.dto";
@@ -19,7 +19,7 @@ export default class AuthService {
     constructor(
         private readonly security: SecurityService,
         private readonly config: ConfigService,
-        @Inject(ProviderNames.MODEL_USER) private readonly user: typeof User
+        @Inject(Providers.MODEL_USER) private readonly user: typeof User
     ) { }
 
 
@@ -94,7 +94,7 @@ export default class AuthService {
                 throw new HttpException(Errors.ERR_INVALID_LOGINPASS, HttpStatus.UNAUTHORIZED);
             }
 
-            const { id, roles } = user            
+            const { id, roles } = user
 
             return this.security.sign({ id, roles })
         } catch (ex) {

@@ -1,8 +1,9 @@
 import { Provider } from "@nestjs/common";
 import { BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table } from "sequelize-typescript";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "../../misc/provider.enum";
 import { Item } from "./Item";
 import { Property } from "./Property";
+import { registerModel } from "../../database/database.utils";
 
 @Table({
     paranoid: false,
@@ -22,6 +23,8 @@ export class PropertyValue extends Model {
 }
 
 export const PropertyValueProvider: Provider = {
-    provide: ProviderNames.MODEL_PROPERTY_VALUE,
+    provide: Providers.MODEL_PROPERTY_VALUE,
     useValue: PropertyValue
 }
+
+registerModel(PropertyValue)

@@ -1,14 +1,16 @@
 import { BelongsTo, HasMany, Model, Table } from "sequelize-typescript";
 import { User } from "../../auth/models/User";
 import { Provider } from "@nestjs/common";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
 import { Item } from "./Item";
+import { ExtModel } from "../../database/ExtModel";
+import { registerModel } from "../../database/database.utils";
 
 @Table({
     paranoid: true,
     timestamps: true
 })
-export class Store extends Model{
+export class Store extends ExtModel{
     @BelongsTo(() => User, {
         foreignKey: 'userId',
         onDelete: 'CASCADE',
@@ -23,6 +25,8 @@ export class Store extends Model{
 }
 
 export const StoreProvider: Provider = {
-    provide: ProviderNames.MODEL_STORE,
+    provide: Providers.MODEL_STORE,
     useValue: Store
 }
+
+registerModel(Store)

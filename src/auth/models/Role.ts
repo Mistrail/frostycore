@@ -1,15 +1,17 @@
 import { Provider } from "@nestjs/common";
-import { BelongsTo, Column, Table, DataType, Model } from "sequelize-typescript";
-import { ProviderNames } from "src/misc/provider.enum";
+import { BelongsTo, Column, Table, DataType } from "sequelize-typescript";
+import { Providers } from "../../misc/provider.enum";
 import { User } from "./User";
-import { Roles } from "src/misc/roles.enum";
-import { Modules } from "src/misc/modules.enum";
+import { Roles } from "../../misc/roles.enum";
+import { Modules } from "../../misc/modules.enum";
+import { ExtModel } from "../../database/ExtModel";
+import { registerModel } from "../../database/database.utils";
 
 @Table({
     paranoid: false,
     timestamps: false,
 })
-export class Role extends Model{
+export class Role extends ExtModel {
 
     @Column(DataType.STRING)
     role: Roles
@@ -19,13 +21,13 @@ export class Role extends Model{
 
     @Column(DataType.INTEGER)
     moduleId?: number
-    
+
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
     })
     userId: number
-    
+
 
     @BelongsTo(() => User, {
         foreignKey: 'userId',
@@ -36,6 +38,10 @@ export class Role extends Model{
 }
 
 export const RoleProvider: Provider = {
-    provide: ProviderNames.MODEL_ROLE,
+    provide: Providers.MODEL_ROLE,
     useValue: Role
 }
+
+registerModel(Role)
+
+console.log()
