@@ -16,7 +16,6 @@ export class FilesystemController {
 
     constructor(private service: FilesystemService) { }
 
-    @ApiOperation({summary: 'Загрузка файла'})
     @Post()
     @Access({ moduleType: Modules.WORKBENCH, role: Roles.ADMIN })
     @UploadFile()
@@ -28,14 +27,12 @@ export class FilesystemController {
         return this.service.add(file, user, fields);
     }
 
-    @ApiOperation({summary: 'Удаление файла'})
     @Delete()
     @Access({ moduleType: Modules.WORKBENCH, role: Roles.ADMIN })
     remove(@Body('id', ParseIntPipe) id: number): Promise<boolean> {
         return this.service.remove(id)
     }
 
-    @ApiOperation({summary: 'Получить контент файла по ИД'})
     @Get(":id")
     async getFile(
         @Param('id') id: number,
