@@ -1,10 +1,13 @@
 import { Provider } from "@nestjs/common";
 import { Column, DataType, HasMany, Model, Scopes, Table } from "sequelize-typescript";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
 import { Role } from "./Role";
 import { File } from "../../filesystem/models/File";
 import * as crypto from "crypto";
-import { Store } from "src/storage/models/Store";
+import { Store } from "../../store/models/Store";
+import { registerModel } from "../../database/database.utils";
+import { ExtModel } from "../../database/ExtModel";
+import { Shop } from "../../shop/models/Shop";
 
 const ALGO: string = 'sha256';
 const DIGEST: crypto.BinaryToTextEncoding = 'hex';
@@ -23,7 +26,7 @@ const scopes = {
     paranoid: true,
     timestamps: true,
 })
-export class User extends Model {
+export class User extends ExtModel {
 
     static SCOPES = scopes
 
@@ -41,6 +44,7 @@ export class User extends Model {
         const challenge = User.generatePasshash(password, this.salt);
         return challenge === this.passhash
     }
+
     @HasMany(() => Role, {
         foreignKey: 'userId'
     })
@@ -55,6 +59,11 @@ export class User extends Model {
         foreignKey: 'userId'
     })
     stores?: Store[]
+
+    @HasMany(() => Shop, {
+        foreignKey: 'userId'
+    })
+    shops?: Shop[]
 
     @Column({
         type: DataType.STRING,
@@ -88,7 +97,8 @@ export class User extends Model {
 }
 
 export const UserProvider: Provider = {
-    provide: ProviderNames.MODEL_USER,
+    provide: Providers.MODEL_USER,
     useValue: User
 }
 
+registerModel(User)

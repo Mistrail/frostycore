@@ -1,15 +1,16 @@
 import { BelongsTo, Column, DataType, Table } from "sequelize-typescript";
 import { EntityTypes } from "../entityTypes.enum";
 import { User } from "../../auth/models/User";
-import { Model } from "sequelize-typescript";
 import { Provider } from "@nestjs/common";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
+import { ExtModel } from "src/database/ExtModel";
+import { registerModel } from "../../database/database.utils";
 
 @Table({
     paranoid: true,
     timestamps: true
 })
-export class File extends Model {
+export class File extends ExtModel {
 
     @Column(DataType.INTEGER)
     entityId: number
@@ -39,6 +40,8 @@ export class File extends Model {
 }
 
 export const FileProvider: Provider = {
-    provide: ProviderNames.MODEL_FILE,
+    provide: Providers.MODEL_FILE,
     useValue: File
 }
+
+registerModel(File)

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { FilesystemUpdateDto } from "./dto/filesystem.update.dto";
 import { File } from "./models/File";
-import { ProviderNames } from "src/misc/provider.enum";
+import { Providers } from "src/misc/provider.enum";
 import * as fs from "fs";
 import * as path from "path";
 import { UserPayloadDto } from "src/auth/dto/user.payload.dto";
@@ -12,7 +12,7 @@ import { Errors } from "src/misc/errors.enum";
 @Injectable()
 export class FilesystemService {
 
-    constructor(@Inject(ProviderNames.MODEL_FILE) private file: typeof File) { }
+    constructor(@Inject(Providers.MODEL_FILE) private file: typeof File) { }
 
     async add(file: Express.Multer.File, user: UserPayloadDto, fields: FilesystemUploadDto): Promise<FilesystemUpdateDto> {
         const dataToInsert: FilesystemCreateDto = {

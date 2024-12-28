@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common";
-import { CatalogModule } from "./catalog/catalog.module";
-import { ElementModule } from "./element/element.module";
-import { CartModule } from "./cart/cart.module";
-import { OrderModule } from "./order/order.module";
-import { CustomerModule } from "./customer/customer.module";
-import { SectionModule } from "./section/section.module";
+import { CatalogModule } from "./modules/catalog/catalog.module";
+import { ElementModule } from "./modules/element/element.module";
+import { CartModule } from "./modules/cart/cart.module";
+import { OrderModule } from "./modules/order/order.module";
+import { CustomerModule } from "./modules/customer/customer.module";
+import { SectionModule } from "./modules/section/section.module";
+import { ShopController } from "./shop.controller";
 
 @Module({
     imports: [
@@ -16,7 +17,7 @@ import { SectionModule } from "./section/section.module";
         CustomerModule
     ],
     exports: [],
-    controllers: [],
+    controllers: [ShopController],
     providers: [],
 })
 export class ShopModule { }
