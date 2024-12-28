@@ -6,6 +6,9 @@ import { OrderModule } from "./modules/order/order.module";
 import { CustomerModule } from "./modules/customer/customer.module";
 import { SectionModule } from "./modules/section/section.module";
 import { ShopController } from "./shop.controller";
+import { SecurityService } from "src/security/security.service";
+import { ShopService } from "./shop.service";
+import { ShopProvider } from "./models/Shop";
 
 @Module({
     imports: [
@@ -18,6 +21,6 @@ import { ShopController } from "./shop.controller";
     ],
     exports: [],
     controllers: [ShopController],
-    providers: [],
+    providers: [SecurityService, ShopService, ShopProvider],
 })
 export class ShopModule { }
