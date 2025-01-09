@@ -13,25 +13,28 @@ export class ShopService {
 
     async updateOne(id: number, fields: ShopUpdateDto): Promise<Shop> {
         let shop = await this.shopModel.findByPk(id);
-        if(shop){
+        if (shop) {
             shop = await shop.update(fields)
         }
-        return shop        
+        return shop
     }
 
     addOne(fields: ShopCreateDto): Promise<Shop> {
-        return this.shopModel.create({...fields}, {isNewRecord: true})
+        return this.shopModel.create({ ...fields }, { isNewRecord: true })
     }
+    
     async remove(id: number): Promise<boolean> {
         const shop = await this.shopModel.findByPk(id);
-        if(shop){
+        if (shop) {
             await shop.destroy()
         }
         return true
     }
+
     getOne(id: number): Promise<Shop> {
         return this.shopModel.findByPk(id)
     }
+
     getList(filter: ShopFilterDto): Promise<List<Shop>> {
         throw new Error("Method not implemented.");
     }

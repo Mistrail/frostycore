@@ -9,6 +9,7 @@ import { ShopController } from "./shop.controller";
 import { SecurityService } from "src/security/security.service";
 import { ShopService } from "./shop.service";
 import { ShopProvider } from "./models/Shop";
+import { FacetModule } from "./modules/facet/facet.module";
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import { ShopProvider } from "./models/Shop";
         ElementModule,
         CartModule,
         OrderModule,
-        CustomerModule
+        CustomerModule,
+        FacetModule,
     ],
     exports: [],
     controllers: [ShopController],

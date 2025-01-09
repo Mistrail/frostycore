@@ -2,5 +2,6 @@ export enum Config {
     SEQUELIZE = 'SEQUELIZE',
     SECURITY = 'SECURITY',
     FILESYSTEM = "FILESYSTEM",
-    MAILER = "MAILER"
+    MAILER = "MAILER",
+    APP = "APP"
 }

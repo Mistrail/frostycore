@@ -12,13 +12,20 @@ import filesystemConfig from './filesystem/filesystem.config';
 import { FilesystemModule } from './filesystem/filesystem.module';
 import { StorageModule } from './store/storage.module';
 import { ShopModule } from './shop/shop.module';
+import appConfig from './app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [databaseConfig, authConfig, securityConfig, filesystemConfig],
+      load: [
+        databaseConfig, 
+        authConfig, 
+        securityConfig, 
+        filesystemConfig,
+        appConfig,
+      ],
     }),
     AuthModule,
     SecurityModule,
